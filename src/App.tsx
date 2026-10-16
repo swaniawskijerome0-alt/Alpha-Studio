@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { AuthProvider } from './context/AuthContext.tsx';
 import { Navbar } from './components/Navbar.tsx';
 import { Hero } from './components/Hero.tsx';
 import { ScrollProgressBar } from './components/ScrollProgressBar.tsx';
@@ -12,10 +13,12 @@ import { AboutFounder } from './components/AboutFounder.tsx';
 import { LocationContact } from './components/LocationContact.tsx';
 import { Footer } from './components/Footer.tsx';
 import { BookingModal } from './components/BookingModal.tsx';
+import { UserAccountModal } from './components/UserAccountModal.tsx';
 import { Phone, Calendar } from 'lucide-react';
 
-export default function App() {
+function AppContent() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('Indoor Signature Studio');
   const [isFlashActive, setIsFlashActive] = useState(false);
 
@@ -51,8 +54,11 @@ export default function App() {
         <div className="fixed inset-0 z-[100] bg-white animate-shutter-flash pointer-events-none" />
       )}
 
-      {/* Top Bar Navigation */}
-      <Navbar onBookClick={() => handleOpenBooking()} />
+      {/* Top Bar Navigation with Google Auth & Booking */}
+      <Navbar
+        onBookClick={() => handleOpenBooking()}
+        onOpenAccount={() => setIsAccountOpen(true)}
+      />
 
       {/* Main Page Sections */}
       <main className="flex-1">
@@ -113,7 +119,14 @@ export default function App() {
         triggerGlobalFlash={triggerGlobalFlash}
       />
 
-      {/* Floating Quick Action Strip for Mobile (adhering to ≤15% mobile viewport cap) */}
+      {/* User Account & Saved Data Modal (Firebase Auth & Firestore) */}
+      <UserAccountModal
+        isOpen={isAccountOpen}
+        onClose={() => setIsAccountOpen(false)}
+        onOpenBooking={() => handleOpenBooking()}
+      />
+
+      {/* Floating Quick Action Strip for Mobile */}
       <div className="md:hidden fixed bottom-3 left-3 right-3 z-40 bg-[#121216]/95 backdrop-blur-md border border-neutral-800 rounded-2xl p-2 shadow-2xl flex items-center justify-between gap-2">
         <a
           href="tel:0939390867"
@@ -131,5 +144,13 @@ export default function App() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }

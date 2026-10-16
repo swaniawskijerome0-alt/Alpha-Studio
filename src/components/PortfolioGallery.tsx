@@ -277,6 +277,9 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
               <div className="relative aspect-[4/5] sm:aspect-[3/4] overflow-hidden">
                 <img
                   src={item.image}
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=80';
+                  }}
                   alt={item.title}
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -440,6 +443,9 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
               <div className="lg:w-3/5 bg-black flex items-center justify-center relative overflow-hidden max-h-[55vh] lg:max-h-none">
                 <img
                   src={selectedItem.image}
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=80';
+                  }}
                   alt={selectedItem.title}
                   className="w-full h-full object-contain max-h-[75vh]"
                   referrerPolicy="no-referrer"

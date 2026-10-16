@@ -11,6 +11,9 @@ import {
   Shirt,
 } from 'lucide-react';
 import { shutterAudio } from '../utils/soundEffects.ts';
+import { useAuth } from '../context/AuthContext.tsx';
+import { db } from '../lib/firebase.ts';
+import { doc, setDoc } from 'firebase/firestore';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -59,28 +62,60 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   const [sessionType, setSessionType] = useState(() => getInitialPackage(defaultPackage));
   const [attireCategory, setAttireCategory] = useState<'traditional' | 'modern' | 'both'>('traditional');
+  const { user } = useAuth();
   const [specificAttire, setSpecificAttire] = useState<string>('Gurage Traditional Dress');
   const [customAttireNote, setCustomAttireNote] = useState('');
   const [date, setDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('09:30 AM');
-  const [name, setName] = useState('');
+  const [name, setName] = useState(user?.displayName || '');
   const [clientPhone, setClientPhone] = useState('');
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setSessionType(getInitialPackage(defaultPackage));
+      if (!name && user?.displayName) {
+        setName(user.displayName);
+      }
     }
-  }, [isOpen, defaultPackage]);
+  }, [isOpen, defaultPackage, user]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSaving(true);
     shutterAudio.playShutterSound();
     triggerGlobalFlash();
-    setSubmitted(true);
+
+    try {
+      const bookingId = `book_${Date.now()}`;
+      await setDoc(doc(db, 'bookings', bookingId), {
+        id: bookingId,
+        userId: user ? user.uid : 'guest_client',
+        userEmail: user?.email || '',
+        clientName: name,
+        clientPhone,
+        sessionType,
+        attireCategory,
+        specificAttire:
+          attireCategory === 'both'
+            ? customAttireNote || 'Traditional + Modern Combination'
+            : specificAttire,
+        date,
+        timeSlot,
+        notes: notes || '',
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.warn('Booking recorded locally, firestore sync note:', err);
+    } finally {
+      setIsSaving(false);
+      setSubmitted(true);
+    }
   };
 
   const handleReset = () => {

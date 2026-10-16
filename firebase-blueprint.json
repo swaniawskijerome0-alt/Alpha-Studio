@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with authentication and role information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique Firebase Auth User ID" },
+        "email": { "type": "string", "description": "Client email address" },
+        "displayName": { "type": "string", "description": "Full name of the user" },
+        "photoURL": { "type": "string", "description": "Avatar photo URL" },
+        "role": { "type": "string", "enum": ["client", "admin"], "description": "User permission role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account registration timestamp" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Studio photo session reservation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Booking document identifier" },
+        "userId": { "type": "string", "description": "Firebase Auth User ID of client" },
+        "clientName": { "type": "string", "description": "Client full name" },
+        "clientPhone": { "type": "string", "description": "Client phone contact" },
+        "sessionType": { "type": "string", "description": "Selected session package" },
+        "attireCategory": { "type": "string", "description": "Traditional, Modern, or Both" },
+        "specificAttire": { "type": "string", "description": "Specific regional or ethnic attire choice" },
+        "date": { "type": "string", "description": "Reservation date" },
+        "timeSlot": { "type": "string", "description": "Selected time window" },
+        "notes": { "type": "string", "description": "Special styling or group instructions" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "completed", "cancelled"], "description": "Booking fulfillment status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Booking creation timestamp" }
+      },
+      "required": ["userId", "clientName", "clientPhone", "sessionType", "date", "timeSlot", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile collection"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Studio reservations collection"
+    }
+  }
+}

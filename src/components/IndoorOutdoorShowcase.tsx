@@ -90,6 +90,9 @@ export const IndoorOutdoorShowcase: React.FC<IndoorOutdoorShowcaseProps> = ({ on
                 <div className="relative group rounded-2xl overflow-hidden aspect-[3/4] bg-neutral-900 border border-neutral-800/80 shadow-xl">
                   <img
                     src="/src/assets/images/portfolio_oromo_traditional_1791912459604.jpg"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80';
+                    }}
                     alt="Oromo Traditional Dress Wandaboo and Siqqee ceremonial portrait"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     referrerPolicy="no-referrer"
@@ -109,6 +112,9 @@ export const IndoorOutdoorShowcase: React.FC<IndoorOutdoorShowcaseProps> = ({ on
                 <div className="relative group rounded-2xl overflow-hidden aspect-[3/4] bg-neutral-900 border border-neutral-800/80 shadow-xl">
                   <img
                     src="/src/assets/images/portfolio_oromo_celebration_1791912460722.jpg"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80';
+                    }}
                     alt="Oromo Cultural Elegance celebration dress with beaded necklace"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     referrerPolicy="no-referrer"

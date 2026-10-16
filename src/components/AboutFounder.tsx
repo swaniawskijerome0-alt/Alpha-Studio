@@ -130,6 +130,9 @@ export const AboutFounder: React.FC<AboutFounderProps> = ({ onBookClick }) => {
               <div className="relative aspect-[3/4] overflow-hidden">
                 <img
                   src="/src/assets/images/architect_bereket_belay_1792138425691.jpg"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&q=80';
+                  }}
                   alt="Architect Bereket Belay - Founder of Alpha Studio, Architect, Designer and Photographer"
                   className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   referrerPolicy="no-referrer"

@@ -15,6 +15,18 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const [shutterCount, setShutterCount] = useState(1);
   const [isSnapping, setIsSnapping] = useState(false);
+  const [heroImageSrc, setHeroImageSrc] = useState(
+    'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=1600&q=85'
+  );
+
+  const handleHeroImageError = () => {
+    // If primary Unsplash fails, fallback to secondary or Placehold.co
+    if (heroImageSrc.includes('photo-1531746020798')) {
+      setHeroImageSrc('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1600&q=85');
+    } else if (heroImageSrc.includes('photo-1534528741775')) {
+      setHeroImageSrc('https://placehold.co/1200x800/18181b/ef4444?text=Alpha+Studio+Burayu+Portrait');
+    }
+  };
 
   const handleShutterClick = () => {
     setIsSnapping(true);
@@ -102,7 +114,8 @@ export const Hero: React.FC<HeroProps> = ({
               {/* Media image */}
               <div className="relative aspect-[16/10] sm:aspect-[16/11] lg:aspect-[16/11] overflow-hidden">
                 <img
-                  src="/src/assets/images/hero_portrait_studio_1791910452336.jpg"
+                  src={heroImageSrc}
+                  onError={handleHeroImageError}
                   alt="Alpha Studio professional portrait session in Burayu Mariam"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                   referrerPolicy="no-referrer"

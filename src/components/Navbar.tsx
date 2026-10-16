@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Calendar, Menu, X } from 'lucide-react';
+import { Phone, Calendar, Menu, X, User, LogIn } from 'lucide-react';
 import { Logo } from './Logo.tsx';
+import { useAuth } from '../context/AuthContext.tsx';
 
 interface NavbarProps {
   onBookClick: () => void;
+  onOpenAccount: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onBookClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onBookClick, onOpenAccount }) => {
+  const { user, signIn } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -77,18 +80,34 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookClick }) => {
             </a>
           </nav>
 
-          {/* Zone 3: 1 Primary Action */}
-          <div className="flex items-center gap-3 shrink-0">
-            <a
-              href="tel:0939390867"
-              className="hidden lg:inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold tracking-wide text-neutral-300 hover:text-white bg-neutral-900 border border-neutral-800 rounded-lg hover:border-red-600/50 transition-all whitespace-nowrap shrink-0"
-            >
-              <Phone className="w-3.5 h-3.5 text-red-500" />
-              <span>0939390867</span>
-            </a>
+          {/* Zone 3: 1 Primary Action + Auth Account */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            {user ? (
+              <button
+                onClick={onOpenAccount}
+                className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-xs font-semibold text-neutral-200 transition-all cursor-pointer"
+                title="View My Studio Account & Bookings"
+              >
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt={user.displayName || 'User'} className="w-5 h-5 rounded-full object-cover" />
+                ) : (
+                  <User className="w-3.5 h-3.5 text-red-500" />
+                )}
+                <span className="hidden sm:inline max-w-[90px] truncate">{user.displayName?.split(' ')[0] || 'Account'}</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => signIn()}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white transition-all cursor-pointer"
+              >
+                <LogIn className="w-3.5 h-3.5 text-red-500" />
+                <span>Sign In</span>
+              </button>
+            )}
+
             <button
               onClick={onBookClick}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-red-600 rounded-lg hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 active:scale-95 whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-red-600 rounded-lg hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 active:scale-95 whitespace-nowrap shrink-0"
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>Book Session</span>
@@ -152,6 +171,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookClick }) => {
             </a>
           </nav>
           <div className="pt-2 border-t border-neutral-800/80 flex flex-col gap-2">
+            {user ? (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAccount();
+                }}
+                className="flex items-center justify-center gap-2 py-2.5 px-4 bg-neutral-900 border border-neutral-800 rounded-lg text-sm text-neutral-200 font-semibold"
+              >
+                <User className="w-4 h-4 text-red-500" />
+                <span>My Studio Account ({user.displayName || 'Client'})</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  signIn();
+                }}
+                className="flex items-center justify-center gap-2 py-2.5 px-4 bg-white text-neutral-900 rounded-lg text-sm font-bold"
+              >
+                <LogIn className="w-4 h-4 text-red-500" />
+                <span>Sign In with Google</span>
+              </button>
+            )}
             <a
               href="tel:0939390867"
               className="flex items-center justify-center gap-2 py-2.5 px-4 bg-neutral-900 border border-neutral-800 rounded-lg text-sm text-neutral-200 font-semibold"
