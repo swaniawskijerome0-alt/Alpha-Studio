@@ -1,0 +1,6 @@
+{
+  "name": "Alpha Studio - Professional Portrait & Photo Studio",
+  "description": "Alpha Studio in Burayu Mariam, Ethiopia, founded by Architect Bereket Belay (Architect, Graphic & Web Designer, Photographer). Premium indoor, outdoor, Ethiopian traditional dress (all regions & ethnic cultures), and modern dress portraits. Call 0939390867.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
