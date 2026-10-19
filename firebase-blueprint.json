@@ -33,6 +33,23 @@
         "createdAt": { "type": "string", "format": "date-time", "description": "Booking creation timestamp" }
       },
       "required": ["userId", "clientName", "clientPhone", "sessionType", "date", "timeSlot", "status"]
+    },
+    "Snapshot": {
+      "title": "Snapshot",
+      "description": "Client live photo snap captured and saved directly to studio database",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Snapshot unique document ID" },
+        "imageUrl": { "type": "string", "description": "Captured photo image data URL or storage link" },
+        "clientName": { "type": "string", "description": "Client name or visitor identifier" },
+        "clientPhone": { "type": "string", "description": "Client contact phone number" },
+        "userId": { "type": "string", "description": "User UID if signed in or guest ID" },
+        "userEmail": { "type": "string", "description": "Client email if provided" },
+        "note": { "type": "string", "description": "Client message or pose note" },
+        "status": { "type": "string", "enum": ["received", "reviewed", "archived"], "description": "Snapshot status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Capture timestamp" }
+      },
+      "required": ["id", "imageUrl", "createdAt"]
     }
   },
   "firestore": {
@@ -43,6 +60,10 @@
     "/bookings/{bookingId}": {
       "schema": "Booking",
       "description": "Studio reservations collection"
+    },
+    "/snapshots/{snapshotId}": {
+      "schema": "Snapshot",
+      "description": "Client camera snapshots collection directly stored in studio database"
     }
   }
 }

@@ -1,5 +1,7 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { Check, Star, Sparkles, Phone } from 'lucide-react';
+import { shutterAudio } from '../utils/soundEffects.ts';
 
 interface PricingPackage {
   id: string;
@@ -36,16 +38,16 @@ const PACKAGES: PricingPackage[] = [
     category: 'outdoor',
     badge: 'Most Popular',
     recommended: true,
-    price: 'ETB 2,500',
-    duration: '75 Minutes Session',
-    description: 'Stunning natural sunlight portraits in Burayu scenic locations during warm morning or golden afternoon light.',
+    price: 'From ETB 6,000',
+    duration: '90 Minutes Full Session',
+    description: 'Bespoke natural sunlight portraits in Burayu scenic locations. Includes 50 master edited and 50 original RAW photos.',
     features: [
+      '50 Master Hand-Edited High-Res Photos',
+      '50 Original RAW Digital Photos Included',
       'Scenic Burayu Hills or Lush Garden On-Location',
       'Ultra-shallow depth of field (f/1.2 & f/1.4 prime optics)',
-      '14 Master Hand-Retouched High-Res Photos',
-      'Up to 3 Outfit Looks',
-      'Posing & natural expression direction',
-      'High-speed digital delivery within 48 hours',
+      'Up to 3 Outfit Looks & Posing Direction',
+      'High-speed digital delivery & print-ready files',
     ],
   },
   {
@@ -124,14 +126,19 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectPackag
           </p>
         </div>
 
-        {/* Pricing Cards Grid */}
+        {/* Pricing Cards Grid with Motion */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-          {PACKAGES.map((pkg) => (
-            <div
+          {PACKAGES.map((pkg, idx) => (
+            <motion.div
               key={pkg.id}
-              className={`rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 relative ${
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.55, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className={`rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-colors duration-300 relative ${
                 pkg.recommended
-                  ? 'bg-neutral-900/95 border-2 border-red-600 shadow-2xl shadow-red-950/30'
+                  ? 'bg-neutral-900/95 border-2 border-red-600 shadow-2xl shadow-red-950/40'
                   : 'bg-neutral-950/80 border border-neutral-800/80 hover:border-neutral-700'
               }`}
             >
@@ -171,30 +178,44 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectPackag
 
               {/* Action Button */}
               <div className="pt-6 mt-6 border-t border-neutral-800/80">
-                <button
-                  onClick={() => onSelectPackage(pkg.name)}
-                  className={`w-full py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95 text-center ${
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => {
+                    shutterAudio.playShutterSound();
+                    onSelectPackage(pkg.name);
+                  }}
+                  className={`w-full py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md text-center cursor-pointer ${
                     pkg.recommended
                       ? 'bg-red-600 hover:bg-red-700 text-white shadow-red-600/30'
-                      : 'bg-neutral-800 hover:bg-neutral-700 text-white hover:text-white'
+                      : 'bg-neutral-800 hover:bg-neutral-700 text-white'
                   }`}
                 >
                   Select & Book
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Custom inquiry strip */}
-        <div className="mt-12 text-center text-xs text-neutral-400 flex flex-wrap items-center justify-center gap-2">
+        <div className="mt-12 text-center text-xs text-neutral-400 flex flex-wrap items-center justify-center gap-3">
           <span>Need custom group shoots, commercial catalog, or school graduation?</span>
           <a
             href="tel:0939390867"
             className="text-red-500 font-bold hover:underline inline-flex items-center gap-1"
           >
             <Phone className="w-3 h-3" />
-            <span>Call us directly at 0939390867</span>
+            <span>Call: 0939390867</span>
+          </a>
+          <span className="text-neutral-600">·</span>
+          <a
+            href="https://t.me/Gmichael_1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#64B5F6] hover:text-white font-bold hover:underline inline-flex items-center gap-1 bg-[#229ED9]/15 px-2.5 py-1 rounded-md border border-[#229ED9]/30 transition-all"
+          >
+            <span>Telegram: @Gmichael_1</span>
           </a>
         </div>
       </div>

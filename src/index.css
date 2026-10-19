@@ -47,3 +47,153 @@
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Gentle floating ambient bokeh lights */
+@keyframes float-bokeh {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-16px) scale(1.08);
+    opacity: 0.55;
+  }
+}
+
+.animate-float-bokeh-1 {
+  animation: float-bokeh 8s ease-in-out infinite;
+}
+
+.animate-float-bokeh-2 {
+  animation: float-bokeh 11s ease-in-out infinite 3s;
+}
+
+.animate-float-bokeh-3 {
+  animation: float-bokeh 9s ease-in-out infinite 1.5s;
+}
+
+/* Viewfinder autofocus brackets pulse */
+@keyframes focus-lock {
+  0% {
+    transform: scale(1.15);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(0.96);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+}
+
+.animate-focus-lock {
+  animation: focus-lock 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Expanding optical flash wave */
+@keyframes flash-wave {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.animate-flash-wave {
+  animation: flash-wave 0.55s ease-out forwards;
+}
+
+/* Editorial subtle light sweep */
+@keyframes sheen {
+  0% { transform: translateX(-150%) skewX(-20deg); }
+  100% { transform: translateX(250%) skewX(-20deg); }
+}
+
+.group:hover .animate-sheen {
+  animation: sheen 0.85s ease-out forwards;
+}
+
+/* Realistic Futuristic Laser Scanner Animations */
+@keyframes laser-sweep {
+  0% {
+    top: 0%;
+    opacity: 0.95;
+  }
+  50% {
+    top: 98%;
+    opacity: 0.95;
+  }
+  100% {
+    top: 0%;
+    opacity: 0.95;
+  }
+}
+
+.animate-laser-sweep {
+  animation: laser-sweep 3.5s ease-in-out infinite;
+}
+
+.animate-laser-sweep-fast {
+  animation: laser-sweep 1.2s ease-in-out infinite;
+}
+
+/* Subtle holographic scanlines texture */
+.scanlines-pattern {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.28) 3px,
+    rgba(0, 0, 0, 0.28) 4px
+  );
+}
+
+/* 3D Perspective Rotation Utilities */
+@keyframes orbit-3d {
+  0% {
+    transform: perspective(1000px) rotateY(-8deg) rotateX(4deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateY(8deg) rotateX(-4deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(-8deg) rotateX(4deg);
+  }
+}
+
+.animate-orbit-3d {
+  animation: orbit-3d 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+/* 3D Text Extrusion Shadows */
+.text-3d-architect {
+  text-shadow: 
+    0 1px 0 #991b1b,
+    0 2px 0 #7f1d1d,
+    0 3px 0 #450a0a,
+    0 4px 6px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(239, 68, 68, 0.35);
+}
+
+.text-3d-cyan {
+  text-shadow:
+    0 1px 0 #0e7490,
+    0 2px 0 #155e75,
+    0 3px 0 #164e63,
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(34, 211, 238, 0.4);
+}

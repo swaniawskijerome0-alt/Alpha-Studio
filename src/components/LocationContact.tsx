@@ -12,6 +12,7 @@ import {
   Check,
   Compass,
   Sparkles,
+  Send,
 } from 'lucide-react';
 import { Logo } from './Logo.tsx';
 
@@ -187,6 +188,16 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onBookClick })
             {/* Direct Action Buttons */}
             <div className="pt-4 border-t border-neutral-800/80 flex flex-col sm:flex-row gap-3">
               <a
+                href="https://t.me/Gmichael_1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-3 px-4 bg-[#229ED9] hover:bg-[#1E88E5] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-[#229ED9]/30 flex items-center justify-center gap-2"
+                title="Direct Telegram Chat: @Gmichael_1"
+              >
+                <Send className="w-4 h-4" />
+                <span>Telegram: @Gmichael_1</span>
+              </a>
+              <a
                 href="tel:0939390867"
                 className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2"
               >
@@ -197,10 +208,10 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onBookClick })
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-3 px-5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2"
+                className="py-3 px-4 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2"
               >
                 <ExternalLink className="w-3.5 h-3.5 text-red-400" />
-                <span>Google Maps</span>
+                <span>Maps</span>
               </a>
             </div>
           </div>

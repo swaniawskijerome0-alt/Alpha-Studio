@@ -14,11 +14,13 @@ import { LocationContact } from './components/LocationContact.tsx';
 import { Footer } from './components/Footer.tsx';
 import { BookingModal } from './components/BookingModal.tsx';
 import { UserAccountModal } from './components/UserAccountModal.tsx';
-import { Phone, Calendar } from 'lucide-react';
+import { LiveCameraSnapModal } from './components/LiveCameraSnapModal.tsx';
+import { Phone, Calendar, Send, Camera } from 'lucide-react';
 
 function AppContent() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [isLiveCameraOpen, setIsLiveCameraOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('Indoor Signature Studio');
   const [isFlashActive, setIsFlashActive] = useState(false);
 
@@ -54,31 +56,33 @@ function AppContent() {
         <div className="fixed inset-0 z-[100] bg-white animate-shutter-flash pointer-events-none" />
       )}
 
-      {/* Top Bar Navigation with Google Auth & Booking */}
+      {/* Top Bar Navigation with Google Auth, Telegram & Booking */}
       <Navbar
         onBookClick={() => handleOpenBooking()}
         onOpenAccount={() => setIsAccountOpen(true)}
+        onOpenLiveCamera={() => setIsLiveCameraOpen(true)}
       />
 
       {/* Main Page Sections */}
       <main className="flex-1">
-        {/* Split-Screen Hero */}
+        {/* Split-Screen Hero with Direct Camera Snap & Telegram */}
         <Hero
           onBookClick={() => handleOpenBooking()}
           onExploreGallery={handleScrollToGallery}
           triggerGlobalFlash={triggerGlobalFlash}
+          onOpenLiveCamera={() => setIsLiveCameraOpen(true)}
         />
 
         {/* Animated Marquee Ribbon */}
         <ScrollShowcaseRibbon />
 
-        {/* Media-First Curated Portfolio Gallery with Authentic Client Portraits */}
+        {/* Media-First Curated Portfolio Gallery */}
         <PortfolioGallery
           onBookSession={() => handleOpenBooking()}
           triggerGlobalFlash={triggerGlobalFlash}
         />
 
-        {/* Indoor vs Outdoor Specialized Showcase */}
+        {/* Indoor vs Outdoor Specialized Showcase (Starts from 6,000 ETB) */}
         <IndoorOutdoorShowcase
           onBookType={(type) => handleOpenBooking(type)}
         />
@@ -102,13 +106,13 @@ function AppContent() {
         {/* Client Portrait Preparation & Posing Guide */}
         <PortraitGuide />
 
-        {/* Physical Studio Location in Burayu Mariam & Direct Hotline */}
+        {/* Physical Studio Location in Burayu Mariam, Direct Hotline & Telegram */}
         <LocationContact
           onBookClick={() => handleOpenBooking()}
         />
       </main>
 
-      {/* Footer */}
+      {/* Footer with Telegram & Contacts */}
       <Footer onBookClick={() => handleOpenBooking()} />
 
       {/* Interactive Booking Modal */}
@@ -126,21 +130,51 @@ function AppContent() {
         onOpenBooking={() => handleOpenBooking()}
       />
 
+      {/* Direct Camera Photo Capture & Store to Firestore Database */}
+      <LiveCameraSnapModal
+        isOpen={isLiveCameraOpen}
+        onClose={() => setIsLiveCameraOpen(false)}
+        triggerGlobalFlash={triggerGlobalFlash}
+      />
+
       {/* Floating Quick Action Strip for Mobile */}
-      <div className="md:hidden fixed bottom-3 left-3 right-3 z-40 bg-[#121216]/95 backdrop-blur-md border border-neutral-800 rounded-2xl p-2 shadow-2xl flex items-center justify-between gap-2">
+      <div className="md:hidden fixed bottom-3 left-3 right-3 z-40 bg-[#121216]/95 backdrop-blur-md border border-neutral-800 rounded-2xl p-2 shadow-2xl flex items-center justify-between gap-1.5">
         <a
           href="tel:0939390867"
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-200 text-xs font-semibold hover:text-white"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-200 text-xs font-semibold hover:text-white"
+          title="Direct Call"
         >
           <Phone className="w-3.5 h-3.5 text-red-500" />
-          <span>Call: 0939390867</span>
+          <span className="truncate">0939390867</span>
         </a>
+
+        {/* Telegram Direct Link @Gmichael_1 */}
+        <a
+          href="https://t.me/Gmichael_1"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2.5 rounded-xl bg-[#229ED9]/20 hover:bg-[#229ED9] border border-[#229ED9]/40 text-[#64B5F6] hover:text-white flex items-center justify-center transition-colors"
+          title="Direct Telegram Chat: @Gmichael_1"
+        >
+          <Send className="w-4 h-4" />
+        </a>
+
+        {/* Live Camera Snap */}
+        <button
+          onClick={() => setIsLiveCameraOpen(true)}
+          className="p-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-red-500/50 text-red-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+          title="Snap Photo & Store to Database"
+        >
+          <Camera className="w-4 h-4 text-red-500" />
+        </button>
+
+        {/* Book Shoot */}
         <button
           onClick={() => handleOpenBooking()}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-red-600 text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-red-600/30"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl bg-red-600 text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-red-600/30 cursor-pointer"
         >
           <Calendar className="w-3.5 h-3.5" />
-          <span>Book Shoot</span>
+          <span className="truncate">Book</span>
         </button>
       </div>
     </div>

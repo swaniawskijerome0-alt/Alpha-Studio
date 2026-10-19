@@ -1,6 +1,28 @@
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
+    <script>
+      (function() {
+        try {
+          var rawFetch = window.fetch;
+          if (rawFetch) {
+            var activeFetch = rawFetch.bind(window);
+            Object.defineProperty(window, 'fetch', {
+              configurable: true,
+              enumerable: true,
+              get: function() {
+                return activeFetch;
+              },
+              set: function(fn) {
+                activeFetch = fn;
+              }
+            });
+          }
+        } catch (e) {
+          // Keep default if restricted
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alpha Studio - Professional Portrait & Photo Studio</title>

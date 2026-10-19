@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MapPin, ArrowUp } from 'lucide-react';
+import { Phone, MapPin, ArrowUp, Send } from 'lucide-react';
 import { Logo } from './Logo.tsx';
 
 interface FooterProps {
@@ -21,13 +21,23 @@ export const Footer: React.FC<FooterProps> = ({ onBookClick }) => {
             <p className="text-xs text-neutral-400 max-w-sm leading-relaxed mt-2">
               Burayu Mariam's premier photo studio. Specializing in high-end indoor studio lighting and natural outdoor portraits that capture authentic beauty and unforgettable memories.
             </p>
-            <div className="pt-2 flex items-center gap-4">
+            <div className="pt-2 flex flex-wrap items-center gap-3">
               <a
                 href="tel:0939390867"
                 className="inline-flex items-center gap-2 text-xs font-semibold text-white bg-neutral-900 hover:bg-neutral-800 px-3.5 py-2 rounded-lg border border-neutral-800 transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-red-500" />
                 <span>0939390867</span>
+              </a>
+              <a
+                href="https://t.me/Gmichael_1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-white bg-[#229ED9]/20 hover:bg-[#229ED9] px-3.5 py-2 rounded-lg border border-[#229ED9]/40 transition-colors"
+                title="Direct Telegram Chat: @Gmichael_1"
+              >
+                <Send className="w-3.5 h-3.5 text-[#64B5F6]" />
+                <span>Telegram: @Gmichael_1</span>
               </a>
               <span className="text-neutral-500">·</span>
               <span className="text-neutral-400">Burayu, Mariam</span>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sun, Lamp, Sparkles, CheckCircle2, ArrowRight, Camera, Award } from 'lucide-react';
+import { shutterAudio } from '../utils/soundEffects.ts';
 
 interface IndoorOutdoorShowcaseProps {
   onBookType: (type: string) => void;
@@ -33,41 +34,38 @@ export const IndoorOutdoorShowcase: React.FC<IndoorOutdoorShowcaseProps> = ({ on
             From regal <strong className="text-white">Ethiopian Traditional & Modern Dress</strong> sessions to controlled indoor strobe lighting and sunlit outdoor celebrations across Burayu Mariam, Alpha Studio turns every shoot into timeless art.
           </p>
 
-          {/* Interactive Filter Control - 3 Tabs */}
+          {/* Interactive Filter Control - 3 Tabs with Smooth Animated Pill */}
           <div className="mt-8 inline-flex flex-wrap items-center justify-center p-1.5 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-lg gap-1">
-            <button
-              onClick={() => setActiveTab('oromo')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
-                activeTab === 'oromo'
-                  ? 'bg-red-600 text-white shadow-md shadow-red-600/30'
-                  : 'text-neutral-400 hover:text-white'
-              }`}
-            >
-              <Sparkles className="w-4 h-4 text-amber-300" />
-              <span>Traditional & Modern Dress</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('indoor')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
-                activeTab === 'indoor'
-                  ? 'bg-red-600 text-white shadow-md shadow-red-600/30'
-                  : 'text-neutral-400 hover:text-white'
-              }`}
-            >
-              <Lamp className="w-4 h-4" />
-              <span>Indoor Studio Precision</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('outdoor')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
-                activeTab === 'outdoor'
-                  ? 'bg-red-600 text-white shadow-md shadow-red-600/30'
-                  : 'text-neutral-400 hover:text-white'
-              }`}
-            >
-              <Sun className="w-4 h-4" />
-              <span>Outdoor Natural Sunlight</span>
-            </button>
+            {[
+              { id: 'oromo' as const, label: 'Traditional & Modern Dress', icon: Sparkles, iconClass: 'text-amber-300' },
+              { id: 'indoor' as const, label: 'Indoor Studio Precision', icon: Lamp, iconClass: '' },
+              { id: 'outdoor' as const, label: 'Outdoor Natural Sunlight', icon: Sun, iconClass: '' },
+            ].map((tab) => {
+              const isActive = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    shutterAudio.playShutterSound();
+                  }}
+                  className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    isActive ? 'text-white' : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="indoorOutdoorTabPill"
+                      className="absolute inset-0 bg-red-600 rounded-xl shadow-md shadow-red-600/30 -z-0"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <Icon className={`w-4 h-4 relative z-10 ${tab.iconClass}`} />
+                  <span className="relative z-10">{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -319,19 +317,25 @@ export const IndoorOutdoorShowcase: React.FC<IndoorOutdoorShowcaseProps> = ({ on
               {/* Information Column */}
               <div className="lg:col-span-5 space-y-6">
                 <div className="space-y-3">
-                  <div className="text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">
-                    Scenic Burayu Locations
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">
+                      Scenic Burayu Locations
+                    </span>
+                    <span className="text-[11px] font-mono font-bold bg-amber-400/20 text-amber-300 px-2 py-0.5 rounded border border-amber-400/30">
+                      Starts from ETB 6,000
+                    </span>
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                     Sunlit Outdoor Celebrations & Milestones
                   </h3>
                   <p className="text-sm text-neutral-300 leading-relaxed">
-                    Bask in radiant natural Ethiopian sunlight. We guide you across scenic gardens, stone steps, and green hills in Burayu to create energetic graduation milestones, cultural portraits, and wedding moments.
+                    Bask in radiant natural Ethiopian sunlight. Packages start from <strong className="text-amber-400">ETB 6,000</strong> including <strong className="text-white">50 master hand-edited photos</strong> and <strong className="text-white">50 original RAW photos</strong> across scenic gardens, stone steps, and hills in Burayu.
                   </p>
                 </div>
 
                 <div className="space-y-3 pt-2">
                   {[
+                    '50 Master Hand-Edited Photos + 50 Original RAW Photos included',
                     'Scenic locations and lush gardens in Burayu and nearby vistas',
                     'Fast 85mm f/1.4 prime optics for silky background bokeh blur',
                     'Dynamic motion captures (confetti pops, walking, candid laughter)',
@@ -344,19 +348,27 @@ export const IndoorOutdoorShowcase: React.FC<IndoorOutdoorShowcaseProps> = ({ on
                   ))}
                 </div>
 
-                <div className="pt-4 flex items-center gap-4">
+                <div className="pt-4 flex flex-wrap items-center gap-3">
                   <button
-                    onClick={() => onBookType('Outdoor Natural Light Session')}
-                    className="inline-flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white bg-red-600 hover:bg-red-700 rounded-xl transition-all shadow-lg shadow-red-600/20 active:scale-95"
+                    onClick={() => onBookType('Outdoor Golden Hour (Starts from ETB 6,000)')}
+                    className="inline-flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white bg-red-600 hover:bg-red-700 rounded-xl transition-all shadow-lg shadow-red-600/20 active:scale-95 cursor-pointer"
                   >
-                    <span>Book Outdoor Session</span>
+                    <span>Book Outdoor Session (ETB 6,000)</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
+                  <a
+                    href="https://t.me/Gmichael_1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-3 rounded-xl bg-[#229ED9]/20 hover:bg-[#229ED9] text-[#64B5F6] hover:text-white border border-[#229ED9]/40 text-xs font-semibold transition-all"
+                  >
+                    <span>Telegram: @Gmichael_1</span>
+                  </a>
                   <a
                     href="tel:0939390867"
                     className="text-xs font-semibold text-neutral-400 hover:text-white transition-colors"
                   >
-                    Questions? Call 0939390867
+                    Call: 0939390867
                   </a>
                 </div>
               </div>

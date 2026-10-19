@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Calendar, Menu, X, User, LogIn } from 'lucide-react';
+import { Phone, Calendar, Menu, X, User, LogIn, Send, Camera } from 'lucide-react';
 import { Logo } from './Logo.tsx';
 import { useAuth } from '../context/AuthContext.tsx';
 
 interface NavbarProps {
   onBookClick: () => void;
   onOpenAccount: () => void;
+  onOpenLiveCamera?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onBookClick, onOpenAccount }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onBookClick, onOpenAccount, onOpenLiveCamera }) => {
   const { user, signIn } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -80,8 +81,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookClick, onOpenAccount }) =>
             </a>
           </nav>
 
-          {/* Zone 3: 1 Primary Action + Auth Account */}
+          {/* Zone 3: Actions + Telegram + Live Snap + Auth Account */}
           <div className="flex items-center gap-2.5 shrink-0">
+            {/* Telegram Direct Link */}
+            <a
+              href="https://t.me/Gmichael_1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#229ED9]/15 hover:bg-[#229ED9]/30 border border-[#229ED9]/40 text-xs font-semibold text-[#64B5F6] hover:text-white transition-all cursor-pointer"
+              title="Direct Telegram Chat: @Gmichael_1"
+            >
+              <Send className="w-3.5 h-3.5" />
+              <span>Telegram: @Gmichael_1</span>
+            </a>
+
+            {/* Direct Live Snap Photo to DB */}
+            {onOpenLiveCamera && (
+              <button
+                onClick={onOpenLiveCamera}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-red-500/40 text-xs font-semibold text-neutral-200 hover:text-white transition-all cursor-pointer"
+                title="Direct Live Camera Snapshot & Store to Database"
+              >
+                <Camera className="w-3.5 h-3.5 text-red-500" />
+                <span>Snap Photo</span>
+              </button>
+            )}
+
             {user ? (
               <button
                 onClick={onOpenAccount}
@@ -194,6 +219,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookClick, onOpenAccount }) =>
                 <span>Sign In with Google</span>
               </button>
             )}
+            {/* Telegram Direct Link */}
+            <a
+              href="https://t.me/Gmichael_1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 py-2.5 px-4 bg-[#229ED9]/20 hover:bg-[#229ED9]/30 border border-[#229ED9]/40 rounded-lg text-sm text-[#64B5F6] font-semibold transition-all"
+            >
+              <Send className="w-4 h-4" />
+              <span>Message Bereket on Telegram: @Gmichael_1</span>
+            </a>
+
+            {/* Live Camera Snapshot to DB */}
+            {onOpenLiveCamera && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenLiveCamera();
+                }}
+                className="flex items-center justify-center gap-2 py-2.5 px-4 bg-red-950/70 border border-red-600/60 rounded-lg text-sm text-white font-semibold transition-all"
+              >
+                <Camera className="w-4 h-4 text-red-500" />
+                <span>Live Camera Snap & Send to DB</span>
+              </button>
+            )}
+
             <a
               href="tel:0939390867"
               className="flex items-center justify-center gap-2 py-2.5 px-4 bg-neutral-900 border border-neutral-800 rounded-lg text-sm text-neutral-200 font-semibold"

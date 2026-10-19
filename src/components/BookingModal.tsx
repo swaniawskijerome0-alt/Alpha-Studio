@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   MapPin,
   Shirt,
+  Send,
 } from 'lucide-react';
 import { shutterAudio } from '../utils/soundEffects.ts';
 import { useAuth } from '../context/AuthContext.tsx';
@@ -165,7 +166,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <option value="Traditional & Cultural Dress Session (Any Region)">Traditional & Cultural Dress Session (Gurage, Arsi, Wollega, Illu Ababor, Jimma, Gonder, etc.)</option>
                   <option value="Modern Dress & High Fashion Session">Modern Dress & High Fashion Session</option>
                   <option value="Indoor Signature Studio">Indoor Signature Studio (Burayu Hall)</option>
-                  <option value="Outdoor Golden Hour">Outdoor Golden Hour (Scenic Burayu)</option>
+                  <option value="Outdoor Golden Hour (From ETB 6,000 · 50 Edited + 50 RAW Photos)">Outdoor Golden Hour (From ETB 6,000 · 50 Edited + 50 RAW Photos)</option>
                   <option value="Alpha Elite Dual (Indoor + Outdoor)">Alpha Elite Dual (Indoor + Outdoor)</option>
                   <option value="Weddings & Celebrations">Weddings & Celebrations</option>
                   <option value="Executive & Model Headshots">Executive & Model Headshots</option>
@@ -404,16 +405,26 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               {/* Submit Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row items-center gap-2.5">
                 <button
                   type="submit"
-                  className="w-full sm:flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-red-600/30 active:scale-95"
+                  className="w-full sm:flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-red-600/30 active:scale-95 cursor-pointer"
                 >
                   Confirm & Reserve Shoot
                 </button>
                 <a
+                  href="https://t.me/Gmichael_1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto py-3 px-3.5 bg-[#229ED9]/20 hover:bg-[#229ED9] border border-[#229ED9]/40 text-[#64B5F6] hover:text-white font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5"
+                  title="Direct Telegram Chat: @Gmichael_1"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Telegram</span>
+                </a>
+                <a
                   href="tel:0939390867"
-                  className="w-full sm:w-auto py-3 px-4 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 hover:text-white font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto py-3 px-3.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 hover:text-white font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5"
                 >
                   <Phone className="w-3.5 h-3.5 text-red-500" />
                   <span>Call Directly</span>
@@ -438,7 +449,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <p className="text-xs text-neutral-300 mt-2 max-w-md mx-auto leading-relaxed">
                 Thank you, <strong className="text-white">{name}</strong>. Your appointment for{' '}
                 <strong className="text-white">{sessionType}</strong> on{' '}
-                <strong className="text-white">{date || 'Upcoming Date'} ({timeSlot})</strong> is recorded.
+                <strong className="text-white">{date || 'Upcoming Date'} ({timeSlot})</strong> is recorded in our studio database.
               </p>
             </div>
 
@@ -469,15 +480,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <a
+                href="https://t.me/Gmichael_1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-3 px-4 bg-[#229ED9] hover:bg-[#1E88E5] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-[#229ED9]/30 flex items-center justify-center gap-2"
+              >
+                <Send className="w-4 h-4" />
+                <span>Chat on Telegram: @Gmichael_1</span>
+              </a>
+              <a
                 href="tel:0939390867"
-                className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2"
+                className="py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4" />
-                <span>Call Studio Now (0939390867)</span>
+                <span>Call Studio (0939390867)</span>
               </a>
               <button
                 onClick={handleReset}
-                className="py-3 px-5 bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white text-xs font-semibold rounded-xl"
+                className="py-3 px-5 bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white text-xs font-semibold rounded-xl cursor-pointer"
               >
                 Done
               </button>

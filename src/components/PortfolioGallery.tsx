@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Camera, Eye, Heart, X, Sparkles, MapPin, Share2, Award, Check } from 'lucide-react';
+import { Camera, Eye, Heart, X, Sparkles, MapPin, Share2, Award, Check, Crosshair } from 'lucide-react';
 import { shutterAudio } from '../utils/soundEffects.ts';
 
 export interface GalleryItem {
@@ -241,19 +241,30 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
               { id: 'traditional', label: 'Traditional (All Regions)' },
               { id: 'indoor', label: 'Indoor Studio' },
               { id: 'graduation', label: 'Graduation & Modern' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
-                className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all whitespace-nowrap shrink-0 ${
-                  activeFilter === tab.id
-                    ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
-                    : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+            ].map((tab) => {
+              const isActive = activeFilter === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveFilter(tab.id as typeof activeFilter);
+                    shutterAudio.playShutterSound();
+                  }}
+                  className={`relative px-4 py-2 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                    isActive ? 'text-white' : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeGalleryTabPill"
+                      className="absolute inset-0 bg-red-600 rounded-lg shadow-md shadow-red-600/30 -z-0"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -346,11 +357,24 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
                   </p>
                 </div>
 
+                {/* Sheen sweep animation */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-sheen" />
+                </div>
+
+                {/* Viewfinder Corner Brackets that appear on hover */}
+                <div className="absolute inset-4 pointer-events-none opacity-0 group-hover:opacity-80 transition-opacity duration-300">
+                  <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-red-500/80" />
+                  <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-red-500/80" />
+                  <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-red-500/80" />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-red-500/80" />
+                </div>
+
                 {/* Center Hover Action */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div className="bg-red-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-2xl backdrop-blur-sm">
-                    <Eye className="w-4 h-4" />
-                    <span>View Fullscreen & EXIF</span>
+                  <div className="bg-red-600/90 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-2xl backdrop-blur-md">
+                    <Crosshair className="w-4 h-4 animate-spin" style={{ animationDuration: '6s' }} />
+                    <span>Inspect Focus & EXIF</span>
                   </div>
                 </div>
               </div>
